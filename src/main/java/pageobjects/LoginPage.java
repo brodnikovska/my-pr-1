@@ -28,17 +28,31 @@ public class LoginPage {
 
     private static final String PAGE_MESSAGE = "//p[text()='%s']";
 
-    public static String getPageMessage() {
-        return PAGE_MESSAGE;
+    @Step
+    public LoginPage login(User user) {
+        setUsername(user);
+        setPassword(user);
+        submitLogin();
+        return this;
     }
 
     @Step
-    public LoginPage login(User user) {
+    public LoginPage setUsername(User user) {
         logger.info("Login as " + user.toString());
         loginInput.setValue(user.getUsername());
         logger.info(user.getUsername() + " username has been set up");
+        return this;
+    }
+
+    @Step
+    public LoginPage setPassword(User user) {
         passwordInput.shouldBe(Condition.visible).setValue(user.getPassword());
         logger.info(user.getPassword() + " password has been set up");
+        return this;
+    }
+
+    @Step
+    public LoginPage submitLogin() {
         loginButton.shouldBe(Condition.visible).click();
         return this;
     }
@@ -46,8 +60,8 @@ public class LoginPage {
     @Step
     public LoginPage verifyLoginSuccessful() {
         loginButton.shouldNotBe(Condition.exist);
-        $x(String.format(LoginPage.getPageMessage(), PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.visible);
-        $x(String.format(LoginPage.getPageMessage(), PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.disappear, Duration.ofMillis(10000));
+        $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.visible);
+        $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.disappear, Duration.ofMillis(10000));
         logger.info(PageMessages.LOGIN_SUCCESSFUL.toString());
         return this;
     }
@@ -55,7 +69,7 @@ public class LoginPage {
     @Step
     public LoginPage verifyNoLogin() {
         loginButton.shouldBe(Condition.exist);
-        $x(String.format(LoginPage.getPageMessage(), PageMessages.LOGIN_SUCCESSFUL)).shouldNotBe(Condition.visible);
+        $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldNotBe(Condition.visible);
         logger.info("No login was detected");
         return this;
     }
@@ -63,7 +77,7 @@ public class LoginPage {
     @Step
     public LoginPage verifyLoginUnsuccessful() {
         loginButton.shouldBe(Condition.exist);
-        $x(String.format(LoginPage.getPageMessage(), PageMessages.BAD_CREDENTIALS)).shouldBe(Condition.visible);
+        $x(String.format(PAGE_MESSAGE, PageMessages.BAD_CREDENTIALS)).shouldBe(Condition.visible);
         logger.info(PageMessages.BAD_CREDENTIALS.toString());
         return this;
     }
