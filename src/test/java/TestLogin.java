@@ -1,48 +1,43 @@
 import beans.User;
-import com.epam.reportportal.junit5.ReportPortalExtension;
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import core.PropertyController;
 import core.StringHelper;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import pageobjects.LoginPage;
 
-import java.util.stream.Stream;
-
 import static com.codeborne.selenide.Selenide.page;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@ExtendWith(ReportPortalExtension.class)
+@Listeners({ReportPortalTestNGListener.class})
 public class TestLogin extends BaseTestCase {
 
-
-    private static Stream<Arguments> validDefaultCredentials() {
-        return Stream.of(
-                arguments(PropertyController.getPropertyByKey("user.name"), PropertyController.getPropertyByKey("user.password")),
-                arguments(PropertyController.getPropertyByKey("admin.name"), PropertyController.getPropertyByKey("admin.password")));
+    @DataProvider(name = "validCredentials")
+    public static Object[][] validCredentials() {
+        return new Object[][]{
+                {PropertyController.getPropertyByKey("user.name"), PropertyController.getPropertyByKey("user.password")},
+                {PropertyController.getPropertyByKey("admin.name"), PropertyController.getPropertyByKey("admin.password")}
+        };
     }
 
-
-    private static Stream<Arguments> invalidCredentials() {
-        return Stream.of(
-                arguments(null, ""),
-                arguments(StringHelper.generateRandomString(1, StringHelper.getValidCharacters()),
-                        StringHelper.generateRandomString(3, StringHelper.getValidCharacters())));
+    @DataProvider(name = "invalidCredentials")
+    public static Object[][] invalidCredentials() {
+        return new Object[][]{
+                {null, ""},
+                {StringHelper.generateRandomString(1, StringHelper.getValidCharacters()),
+                        StringHelper.generateRandomString(3, StringHelper.getValidCharacters())}
+        };
     }
 
-
-    private static Stream<Arguments> badCredentials() {
-        return Stream.of(
-                arguments(
-                        StringHelper.generateRandomString(2, StringHelper.getValidCharacters()),
-                        StringHelper.generateRandomString(4, StringHelper.getValidCharacters())));
+    @DataProvider(name = "badCredentials")
+    public static Object[][] badCredentials() {
+        return new Object[][]{
+                {StringHelper.generateRandomString(2, StringHelper.getValidCharacters()),
+                StringHelper.generateRandomString(4, StringHelper.getValidCharacters())}
+        };
     }
 
-    @ParameterizedTest
-    @MethodSource("invalidCredentials")
-    @Order(1)
+    @Test(priority = 1, dataProvider = "invalidCredentials")
     public void loginWithInvalidCredentials(String username, String password) {
         User user = new User();
         user.setUsername(username);
@@ -52,9 +47,7 @@ public class TestLogin extends BaseTestCase {
         loginPage.verifyNoLogin();
     }
 
-    @ParameterizedTest
-    @MethodSource("badCredentials")
-    @Order(2)
+    @Test(priority = 2, dataProvider = "badCredentials")
     public void loginWithBadCredentials(String username, String password) {
         User user = new User();
         user.setUsername(username);
@@ -64,9 +57,7 @@ public class TestLogin extends BaseTestCase {
         loginPage.verifyLoginUnsuccessful();
     }
 
-    @ParameterizedTest
-    @MethodSource("validDefaultCredentials")
-    @Order(3)
+    @Test(priority = 3, dataProvider = "validCredentials")
     public void loginWithValidDefaultCredentials(String username, String password) {
         User user = new User();
         user.setUsername(username);
