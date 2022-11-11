@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
 public class LoginPage {
-    private static Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginPage.class);
 
     @FindBy(xpath = "//button[text()='Login']")
     private SelenideElement loginButton;
@@ -38,16 +38,28 @@ public class LoginPage {
 
     @Step
     public LoginPage setUsername(User user) {
-        logger.info("Login as " + user.toString());
+        LOGGER.info(String.format("Login as %s", user.toString()));
         loginInput.setValue(user.getUsername());
-        logger.info(user.getUsername() + " username has been set up");
+        LOGGER.info(String.format("%s username has been set up", user.getUsername()));
+        return this;
+    }
+
+    @Step
+    public LoginPage setUsername(String username) {
+        loginInput.setValue(username);
         return this;
     }
 
     @Step
     public LoginPage setPassword(User user) {
         passwordInput.shouldBe(Condition.visible).setValue(user.getPassword());
-        logger.info(user.getPassword() + " password has been set up");
+        LOGGER.info(String.format("%s password has been set up", user.getPassword()));
+        return this;
+    }
+
+    @Step
+    public LoginPage setPassword(String password) {
+        passwordInput.shouldBe(Condition.visible).setValue(password);
         return this;
     }
 
@@ -62,7 +74,7 @@ public class LoginPage {
         loginButton.shouldNotBe(Condition.exist);
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.visible);
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.disappear, Duration.ofMillis(10000));
-        logger.info(PageMessages.LOGIN_SUCCESSFUL.toString());
+        LOGGER.info(PageMessages.LOGIN_SUCCESSFUL.toString());
         return this;
     }
 
@@ -70,7 +82,7 @@ public class LoginPage {
     public LoginPage verifyNoLogin() {
         loginButton.shouldBe(Condition.exist);
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldNotBe(Condition.visible);
-        logger.info("No login was detected");
+        LOGGER.info("No login was detected");
         return this;
     }
 
@@ -78,7 +90,7 @@ public class LoginPage {
     public LoginPage verifyLoginUnsuccessful() {
         loginButton.shouldBe(Condition.exist);
         $x(String.format(PAGE_MESSAGE, PageMessages.BAD_CREDENTIALS)).shouldBe(Condition.visible);
-        logger.info(PageMessages.BAD_CREDENTIALS.toString());
+        LOGGER.info(PageMessages.BAD_CREDENTIALS.toString());
         return this;
     }
 }
