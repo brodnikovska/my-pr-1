@@ -1,6 +1,8 @@
+package ui;
+
 import beans.User;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
-import core.PropertyController;
+import utils.PropertyController;
 import entities.LaunchesMenus;
 import entities.LeftSideBar;
 import org.testng.Assert;

@@ -1,7 +1,9 @@
+package ui;
+
 import beans.User;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
-import core.PropertyController;
-import core.StringHelper;
+import utils.PropertyController;
+import utils.StringHelper;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;

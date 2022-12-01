@@ -1,0 +1,8 @@
+{
+  "description": "my brand new updated %s dashboard",
+  "owner": "default",
+  "share": true,
+  "id": "%s",
+  "name": "%s",
+  "widgets": []
+}

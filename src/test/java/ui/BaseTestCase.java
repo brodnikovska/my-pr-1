@@ -1,7 +1,9 @@
+package ui;
+
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
-import core.PropertyController;
+import utils.PropertyController;
 import org.testng.annotations.*;
 
 import static com.codeborne.selenide.Selenide.open;
