@@ -1,17 +1,20 @@
 package ui;
 
 import beans.User;
+import com.codeborne.selenide.WebDriverRunner;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
+import lombok.SneakyThrows;
+import org.testng.annotations.*;
 import utils.PropertyController;
 import entities.LaunchesMenus;
 import entities.LeftSideBar;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
 import pageobjects.LaunchesPage;
 import pageobjects.LeftSidePanel;
 import pageobjects.LoginPage;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.page;
 
@@ -43,7 +46,6 @@ public class TestLaunchesTab extends BaseTestCase {
         leftSidePanel
                 .selectButton(LeftSideBar.LAUNCHES.toString());
         Assert.assertEquals(launchesPage.getLaunchesMenuTitles(), LaunchesMenus.getValues());
-
     }
 
     @Test

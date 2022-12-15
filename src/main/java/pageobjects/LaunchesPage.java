@@ -1,15 +1,18 @@
 package pageobjects;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import entities.UtilityPage;
 import entities.LaunchesMenus;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -26,6 +29,9 @@ public class LaunchesPage {
 
     @Step
     public List<String> getLaunchesMenuTitles() {
+        UtilityPage.getTheFullScreen();
+        Selenide.screenshot(Long. toString(System.currentTimeMillis()));
+        menus.get(0).shouldBe(Condition.exist, Duration.ofMillis(12000));
         return menus.stream()
                 .filter(e -> !e.text().isEmpty())
                 .map(SelenideElement::getText)
@@ -34,11 +40,13 @@ public class LaunchesPage {
 
     @Step
     public LaunchesPage openRandomTestResults() {
+        testRuns.get(0).shouldBe(Condition.visible, Duration.ofMillis(15000));
         int numberOfLaunches = testRuns.size();
         Random random = new Random();
         try {
             int randomNumberFromTheTop = random.nextInt(numberOfLaunches);
-            testRuns.get(randomNumberFromTheTop).click();
+            //testRuns.get(randomNumberFromTheTop).click();
+            UtilityPage.clickUsingJS(testRuns.get(randomNumberFromTheTop));
         } catch (IllegalArgumentException e) {
             e.toString();
         }

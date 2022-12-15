@@ -52,26 +52,26 @@ public class LoginPage {
 
     @Step
     public LoginPage setPassword(User user) {
-        passwordInput.shouldBe(Condition.visible).setValue(user.getPassword());
+        passwordInput.shouldBe(Condition.visible, Duration.ofMillis(6000)).setValue(user.getPassword());
         LOGGER.info(String.format("%s password has been set up", user.getPassword()));
         return this;
     }
 
     @Step
     public LoginPage setPassword(String password) {
-        passwordInput.shouldBe(Condition.visible).setValue(password);
+        passwordInput.shouldBe(Condition.visible, Duration.ofMillis(6000)).setValue(password);
         return this;
     }
 
     @Step
     public LoginPage submitLogin() {
-        loginButton.shouldBe(Condition.visible).click();
+        loginButton.shouldBe(Condition.visible, Duration.ofMillis(6000)).click();
         return this;
     }
 
     @Step
     public LoginPage verifyLoginSuccessful() {
-        loginButton.shouldNotBe(Condition.exist);
+        loginButton.shouldNotBe(Condition.exist, Duration.ofMillis(6000));
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.visible);
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldBe(Condition.disappear, Duration.ofMillis(10000));
         LOGGER.info(PageMessages.LOGIN_SUCCESSFUL.toString());
@@ -80,7 +80,7 @@ public class LoginPage {
 
     @Step
     public LoginPage verifyNoLogin() {
-        loginButton.shouldBe(Condition.exist);
+        loginButton.shouldBe(Condition.exist, Duration.ofMillis(6000));
         $x(String.format(PAGE_MESSAGE, PageMessages.LOGIN_SUCCESSFUL)).shouldNotBe(Condition.visible);
         LOGGER.info("No login was detected");
         return this;
@@ -88,7 +88,7 @@ public class LoginPage {
 
     @Step
     public LoginPage verifyLoginUnsuccessful() {
-        loginButton.shouldBe(Condition.exist);
+        loginButton.shouldBe(Condition.exist, Duration.ofMillis(6000));
         $x(String.format(PAGE_MESSAGE, PageMessages.BAD_CREDENTIALS)).shouldBe(Condition.visible);
         LOGGER.info(PageMessages.BAD_CREDENTIALS.toString());
         return this;
