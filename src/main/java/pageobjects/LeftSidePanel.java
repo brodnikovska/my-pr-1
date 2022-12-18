@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
-public class LeftSidePanel extends UtilityPage {
+public class LeftSidePanel{
     private static Logger logger = LoggerFactory.getLogger(LeftSidePanel.class);
 
     @FindBy(xpath = "//a[contains(@class,'sidebarButton') and contains(@href,'personal')]")
     private ElementsCollection sideBarIcons;
-
     private final static String SIDE_BAR_ICON = "//a[contains(@class,'sidebarButton') and contains(@href,'personal')]//following::span[text()='%s']/..";
 
     @Step
@@ -35,8 +34,6 @@ public class LeftSidePanel extends UtilityPage {
     public LeftSidePanel selectButton(String icon) {
         $x(String.format(SIDE_BAR_ICON, icon)).shouldBe(Condition.visible, Duration.ofMillis(10000));
         UtilityPage.clickUsingJS($x(String.format(SIDE_BAR_ICON, icon)));
-//        JavascriptExecutor executor = (JavascriptExecutor) WebDriverRunner.getWebDriver();
-//        executor.executeScript("arguments[0].click();", $x(String.format(SIDE_BAR_ICON, icon)));
         return this;
     }
 
