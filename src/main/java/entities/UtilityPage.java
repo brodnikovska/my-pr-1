@@ -19,6 +19,18 @@ public abstract class UtilityPage {
     }
 
     @Step
+    public static void scrollToViewUsingJS(SelenideElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+        executor.executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    @Step
+    public static Long getPositionOfElementUsingJS(SelenideElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+        return (Long) executor.executeScript("return arguments[0].offsetTop;", element);
+    }
+
+    @Step
     public static void getTheFullScreen() {
         WebDriverRunner.getWebDriver().manage().window().fullscreen();
     }

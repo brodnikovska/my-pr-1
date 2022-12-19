@@ -45,7 +45,6 @@ public class LaunchesPage {
         Random random = new Random();
         try {
             int randomNumberFromTheTop = random.nextInt(numberOfLaunches);
-            //testRuns.get(randomNumberFromTheTop).click();
             UtilityPage.clickUsingJS(testRuns.get(randomNumberFromTheTop));
         } catch (IllegalArgumentException e) {
             e.toString();

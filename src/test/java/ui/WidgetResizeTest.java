@@ -1,11 +1,9 @@
 package ui;
 
 import beans.User;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import entities.LeftSideBar;
-import entities.UtilityPage;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pageobjects.DashboardsPage;
@@ -48,7 +46,6 @@ public class WidgetResizeTest extends BaseTestCase {
         leftSidePanel.selectButton(LeftSideBar.DASHBOARDS.toString());
         dashboardsPage
                 .openDashboard(TEST_DASHBOARD_NAME);
-        UtilityPage.getTheFullScreen();
         int widgetWidthBeforeTransform = dashboardsPage.getWidgetWidth(TEST_WIDGET_NAME);
         int widgetHeightBeforeTransform = dashboardsPage.getWidgetHeight(TEST_WIDGET_NAME);
 
@@ -68,7 +65,6 @@ public class WidgetResizeTest extends BaseTestCase {
         leftSidePanel.selectButton(LeftSideBar.DASHBOARDS.toString());
         dashboardsPage
                 .openDashboard(TEST_DASHBOARD_NAME);
-        UtilityPage.getTheFullScreen();
         int numberOfTestRunsBeforeTransform = dashboardsPage.getNumberOfVisibleRuns(TEST_WIDGET_NAME);
 
         dashboardsPage.resizeWidget(TEST_WIDGET_NAME, X_OFFSET, Y_OFFSET);
@@ -80,11 +76,28 @@ public class WidgetResizeTest extends BaseTestCase {
     }
 
     @Test()
+    public void verifyScrollApplicableAfterResize() {
+        leftSidePanel.selectButton(LeftSideBar.DASHBOARDS.toString());
+        dashboardsPage
+                .openDashboard(TEST_DASHBOARD_NAME);
+
+        dashboardsPage.resizeWidget(TEST_WIDGET_NAME, -X_OFFSET, -Y_OFFSET);
+        Long positionOfLastRunBeforeScroll = dashboardsPage.getYPositionOfTestRun(TEST_WIDGET_NAME, dashboardsPage.getNumberOfVisibleRuns(TEST_WIDGET_NAME) -1);
+
+        dashboardsPage.scrollToTestRun(TEST_WIDGET_NAME,  dashboardsPage.getNumberOfVisibleRuns(TEST_WIDGET_NAME) -1);
+        Assert.assertTrue(dashboardsPage.getYPositionOfTestRun(TEST_WIDGET_NAME, 1) < positionOfLastRunBeforeScroll);
+
+        dashboardsPage.scrollToTestRun(TEST_WIDGET_NAME,  0);
+        Assert.assertEquals(dashboardsPage.getYPositionOfTestRun(TEST_WIDGET_NAME, dashboardsPage.getNumberOfVisibleRuns(TEST_WIDGET_NAME) -1), positionOfLastRunBeforeScroll);
+
+        dashboardsPage.resizeWidget(TEST_WIDGET_NAME, X_OFFSET, Y_OFFSET);
+    }
+
+    @Test()
     public void verifyOtherWidgetsMoveWhileResizing() {
         leftSidePanel.selectButton(LeftSideBar.DASHBOARDS.toString());
         dashboardsPage
                 .openDashboard(TEST_DASHBOARD_NAME);
-        UtilityPage.getTheFullScreen();
         float otherWidgetPositionXBeforeTransform = dashboardsPage.getWidgetPositionX(OTHER_WIDGET_NAME);
         float otherWidgetPositionYBeforeTransform = dashboardsPage.getWidgetPositionY(OTHER_WIDGET_NAME);
 

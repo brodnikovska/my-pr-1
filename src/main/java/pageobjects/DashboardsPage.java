@@ -26,6 +26,7 @@ public class DashboardsPage {
     public DashboardsPage openDashboard(String dashboardName) {
         $x(String.format(DASHBOARD, dashboardName)).shouldBe(Condition.visible, Duration.ofMillis(10000));
         $x(String.format(DASHBOARD, dashboardName)).click();
+        UtilityPage.getTheFullScreen();
         return this;
     }
 
@@ -36,9 +37,20 @@ public class DashboardsPage {
     }
 
     @Step
+    public DashboardsPage scrollToTestRun(String widgetName, int index) {
+        UtilityPage.scrollToViewUsingJS($$x(String.format(GRID_ROW, widgetName)).get(index));
+        return this;
+    }
+
+    @Step
     public int getNumberOfVisibleRuns(String widgetName) {
-        $$x(String.format(GRID_ROW, widgetName)).get(0).shouldBe(Condition.visible, Duration.ofMillis(6000));
+        $$x(String.format(GRID_ROW, widgetName)).first().shouldBe(Condition.visible, Duration.ofMillis(6000));
         return $$x(String.format(GRID_ROW, widgetName)).filter(Condition.visible).size();
+    }
+
+    @Step
+    public Long getYPositionOfTestRun(String widgetName, int index) {
+        return UtilityPage.getPositionOfElementUsingJS($$x(String.format(GRID_ROW, widgetName)).get(index));
     }
 
     @Step
