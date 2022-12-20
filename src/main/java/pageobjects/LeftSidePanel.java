@@ -3,7 +3,6 @@ package pageobjects;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import entities.UtilityPage;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
-public class LeftSidePanel{
+public class LeftSidePanel extends BasePage{
     private static Logger logger = LoggerFactory.getLogger(LeftSidePanel.class);
 
     @FindBy(xpath = "//a[contains(@class,'sidebarButton') and contains(@href,'personal')]")
@@ -33,7 +32,7 @@ public class LeftSidePanel{
     @Step
     public LeftSidePanel selectButton(String icon) {
         $x(String.format(SIDE_BAR_ICON, icon)).shouldBe(Condition.visible, Duration.ofMillis(10000));
-        UtilityPage.clickUsingJS($x(String.format(SIDE_BAR_ICON, icon)));
+        clickUsingJS($x(String.format(SIDE_BAR_ICON, icon)));
         return this;
     }
 

@@ -109,4 +109,25 @@ public class WidgetResizeTest extends BaseTestCase {
 
         dashboardsPage.resizeWidget(TEST_WIDGET_NAME, -X_OFFSET, -Y_OFFSET);
     }
+
+    @Test()
+    public void verifyWidgetMoveAfterDragAndDrop() {
+        leftSidePanel.selectButton(LeftSideBar.DASHBOARDS.toString());
+        dashboardsPage
+                .openDashboard(TEST_DASHBOARD_NAME);
+        float widgetPositionXBeforeTransform = dashboardsPage.getWidgetPositionX(TEST_WIDGET_NAME);
+        float widgetPositionYBeforeTransform = dashboardsPage.getWidgetPositionY(TEST_WIDGET_NAME);
+
+        dashboardsPage
+                .dragAndDropWidget(TEST_WIDGET_NAME, X_OFFSET * 2, 0)
+                .dragAndDropWidget(TEST_WIDGET_NAME, 0, Y_OFFSET * 3);
+        Assert.assertTrue(dashboardsPage.getWidgetPositionX(TEST_WIDGET_NAME) > widgetPositionXBeforeTransform);
+        Assert.assertTrue( dashboardsPage.getWidgetPositionY(TEST_WIDGET_NAME) > widgetPositionYBeforeTransform);
+
+        dashboardsPage
+                .dragAndDropWidget(TEST_WIDGET_NAME, -X_OFFSET * 2, 0)
+                .dragAndDropWidget(TEST_WIDGET_NAME, 0, -Y_OFFSET * 2);
+        Assert.assertEquals(dashboardsPage.getWidgetPositionY(TEST_WIDGET_NAME), widgetPositionXBeforeTransform);
+        Assert.assertEquals( dashboardsPage.getWidgetPositionY(TEST_WIDGET_NAME), widgetPositionYBeforeTransform);
+    }
 }
