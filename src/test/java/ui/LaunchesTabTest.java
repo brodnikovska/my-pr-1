@@ -1,9 +1,7 @@
 package ui;
 
 import beans.User;
-import com.codeborne.selenide.WebDriverRunner;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
-import lombok.SneakyThrows;
 import org.testng.annotations.*;
 import utils.PropertyController;
 import entities.LaunchesMenus;
@@ -13,13 +11,10 @@ import pageobjects.LaunchesPage;
 import pageobjects.LeftSidePanel;
 import pageobjects.LoginPage;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
 import static com.codeborne.selenide.Selenide.page;
 
 @Listeners({ReportPortalTestNGListener.class})
-public class TestLaunchesTab extends BaseTestCase {
+public class LaunchesTabTest extends BaseTestCase {
     private static final String USERNAME = PropertyController.getPropertyByKey("user.name");
     private static final String PASSWORD = PropertyController.getPropertyByKey("user.password");
 
