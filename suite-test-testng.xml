@@ -2,9 +2,9 @@
 <suite name = "Parallel Testing Suite">
 <test name = "Parallel Tests" parallel = "classes" thread-count = "3">
     <classes>
-        <class name = "ui.TestLogin" />
-        <class name = "ui.TestLeftSideTabs" />
-        <class name = "ui.TestLaunchesTab" />
+        <class name = "ui.LoginTest" />
+        <class name = "ui.LeftSideTabsTest" />
+        <class name = "ui.LaunchesTabTest" />
     </classes>
 </test>
 </suite>

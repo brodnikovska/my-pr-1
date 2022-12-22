@@ -12,7 +12,7 @@ import pageobjects.LoginPage;
 import static com.codeborne.selenide.Selenide.page;
 
 @Listeners({ReportPortalTestNGListener.class})
-public class TestLogin extends BaseTestCase {
+public class LoginTest extends BaseTestCase {
 
     @DataProvider(name = "validCredentials")
     public static Object[][] validCredentials() {

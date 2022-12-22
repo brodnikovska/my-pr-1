@@ -2,13 +2,11 @@ package ui;
 
 import beans.User;
 import com.epam.reportportal.testng.ReportPortalTestNGListener;
+import org.testng.annotations.*;
 import utils.PropertyController;
 import entities.LaunchesMenus;
 import entities.LeftSideBar;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
 import pageobjects.LaunchesPage;
 import pageobjects.LeftSidePanel;
 import pageobjects.LoginPage;
@@ -16,7 +14,7 @@ import pageobjects.LoginPage;
 import static com.codeborne.selenide.Selenide.page;
 
 @Listeners({ReportPortalTestNGListener.class})
-public class TestLaunchesTab extends BaseTestCase {
+public class LaunchesTabTest extends BaseTestCase {
     private static final String USERNAME = PropertyController.getPropertyByKey("user.name");
     private static final String PASSWORD = PropertyController.getPropertyByKey("user.password");
 
@@ -43,7 +41,6 @@ public class TestLaunchesTab extends BaseTestCase {
         leftSidePanel
                 .selectButton(LeftSideBar.LAUNCHES.toString());
         Assert.assertEquals(launchesPage.getLaunchesMenuTitles(), LaunchesMenus.getValues());
-
     }
 
     @Test
