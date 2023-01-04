@@ -14,7 +14,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
-public class LoginPage {
+public class LoginPage extends BasePage {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginPage.class);
 
     @FindBy(xpath = "//button[text()='Login']")
@@ -65,7 +65,8 @@ public class LoginPage {
 
     @Step
     public LoginPage submitLogin() {
-        loginButton.shouldBe(Condition.visible, Duration.ofMillis(6000)).click();
+        loginButton.shouldBe(Condition.visible, Duration.ofMillis(6000));
+        clickUsingJS(loginButton);
         return this;
     }
 
@@ -89,6 +90,7 @@ public class LoginPage {
     @Step
     public LoginPage verifyLoginUnsuccessful() {
         loginButton.shouldBe(Condition.exist, Duration.ofMillis(6000));
+        clickUsingJS(loginButton);
         $x(String.format(PAGE_MESSAGE, PageMessages.BAD_CREDENTIALS)).shouldBe(Condition.visible);
         LOGGER.info(PageMessages.BAD_CREDENTIALS.toString());
         return this;
