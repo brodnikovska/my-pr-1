@@ -68,4 +68,6 @@ public class LoginTest extends BaseTestCase {
         loginPage.login(user);
         loginPage.verifyLoginSuccessful();
     }
+
+    //check commit to master branch
 }
